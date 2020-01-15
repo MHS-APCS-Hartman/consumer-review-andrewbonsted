@@ -1,3 +1,29 @@
+/*
+4. The method totalSentiment works because it finds the sentiment of each individual word, 
+excluding punctuation. Each word is built by adding letters to each until a space is reached.
+Then, the helper method sentimentVal is called and the sentiment value of the word is found and
+added onto the running total for the entire review.
+
+5. 
+a) Yes, I took into account the total sentiment of SimpleReview.txt and the wording used in that
+review and thought that a review like that deserved a one star. From there I made a scale of three,
+for every three total sentiment value "points", the review gained a star.
+
+b) We can return it as a integer which would round up or down the decimal so its more simple of a 
+rating. We could also add a certain amount to the total sentiment to make sure we are working with
+only positive numbers. The lowest total sentiment would be 0 and all other total sentiments would
+be higher than that.
+
+6.
+a) The logical error that was made by the coder was the order of the if and else if statements. If
+the total sentiment value was 4, then the star rating 4 would be returned even though the star 
+rating that should be returned is 2.
+
+b) If the coder started with the lowest return value and worked their way up to the 4 rating, 
+like in my code then the mistake could have been avoided.
+
+
+*/
 import java.util.Scanner;
 import java.io.File;
 import java.util.HashMap;
@@ -114,26 +140,6 @@ public class Review {
     return punc;
   }
   
-   /**
-   * Returns the word after removing any beginning or ending punctuation
-   */
-  public static String removePunctuation( String word )
-  {
-    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(0)))
-    {
-      word = word.substring(1);
-    }
-    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(word.length()-1)))
-    {
-      word = word.substring(0, word.length()-1);
-    }
-    
-    return word;
-  }
- 
-
-
-  
   /** 
    * Randomly picks a positive adjective from the positiveAdjectives.txt file and returns it.
    */
@@ -165,4 +171,88 @@ public class Review {
       return randomNegativeAdj();
     }
   }
+   /**
+   * Returns the word after removing any beginning or ending punctuation
+   */
+  public static String removePunctuation( String word )
+  {
+    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(0)))
+    {
+      word = word.substring(1);
+    }
+    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(word.length()-1)))
+    {
+      word = word.substring(0, word.length()-1);
+    }
+    
+    return word;
+  }
+ 
+  
+  public static double totalSentiment(String fileName)
+  {
+      
+      String reviewText = textToString(fileName);
+      
+      String word = "";
+      String punctuation = "";
+      double sentValue = 0.0;
+      
+      for(int i = 0; i < reviewText.length(); i++)
+      {
+         
+         String letter = reviewText.substring(i, i+1);
+         
+         if (!(letter.equals(" ")))
+         {
+            word += letter;
+         }
+         
+         
+         else
+         {
+            removePunctuation(word);
+            sentValue += sentimentVal(word);
+            word = "";
+         }
+      }
+      
+      return sentValue;
+      
+  }
+  
+  public static int starRating(String fileName)
+  {
+    String reviewText = textToString(fileName);
+    double sentiment = totalSentiment(fileName);
+    int rating;
+    
+    if(sentiment < -3)
+    {
+       rating = 1;
+    }
+    
+    else if(sentiment < 0)
+    {
+       rating = 2;
+    }
+    
+    else if(sentiment < 3)
+    {
+       rating = 3;
+    }
+    
+    else if(sentiment < 6)
+    {
+       rating = 4;
+    }
+    
+    else
+    {
+       rating = 5;
+    }
+    
+    return rating;
+  }
 }
+     
