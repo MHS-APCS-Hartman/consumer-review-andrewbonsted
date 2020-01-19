@@ -114,26 +114,6 @@ public class Review {
     return punc;
   }
   
-   /**
-   * Returns the word after removing any beginning or ending punctuation
-   */
-  public static String removePunctuation( String word )
-  {
-    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(0)))
-    {
-      word = word.substring(1);
-    }
-    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(word.length()-1)))
-    {
-      word = word.substring(0, word.length()-1);
-    }
-    
-    return word;
-  }
- 
-
-
-  
   /** 
    * Randomly picks a positive adjective from the positiveAdjectives.txt file and returns it.
    */
@@ -164,5 +144,132 @@ public class Review {
     } else {
       return randomNegativeAdj();
     }
+  }
+   /**
+   * Returns the word after removing any beginning or ending punctuation
+   */
+  public static String removePunctuation( String word )
+  {
+    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(0)))
+    {
+      word = word.substring(1);
+    }
+    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(word.length()-1)))
+    {
+      word = word.substring(0, word.length()-1);
+    }
+    
+    return word;
+  }
+ 
+  
+  public static double totalSentiment(String fileName)
+  {
+      //open file
+      
+      //pick each word - when i find a space, all the stuff before was a word - remove punctuation - reset word = "" 
+      
+      //look up sentiment value
+      
+      //add to total
+      
+      //return total value
+      
+      String reviewText = textToString(fileName);
+      
+      String word = "";
+      String punctuation = "";
+      double sentValue = 0.0;
+      
+      for(int i = 0; i < reviewText.length(); i++)
+      {
+         
+         String letter = reviewText.substring(i, i+1);
+         
+         if (!(letter.equals(" ")))
+         {
+            word += letter;
+         }
+         
+         
+         else
+         {
+            removePunctuation(word);
+            sentValue += sentimentVal(word);
+            word = "";
+         }
+      }
+      
+      return sentValue;
+      
+  }
+  
+  public static int starRating(String fileName)
+  {
+    String reviewText = textToString(fileName);
+    double sentiment = totalSentiment(fileName);
+    int rating;
+    
+    if(sentiment < -3)
+    {
+       rating = 1;
+    }
+    
+    else if(sentiment < 0)
+    {
+       rating = 2;
+    }
+    
+    else if(sentiment < 3)
+    {
+       rating = 3;
+    }
+    
+    else if(sentiment < 6)
+    {
+       rating = 4;
+    }
+    
+    else
+    {
+       rating = 5;
+    }
+    
+    return rating;
+  }
+  
+  public static String fakeReview(String fileName)
+  {
+    int beginInd = 0;
+    int endInd = 0;
+    String adj = "";
+    String beforeAdj = "";
+    String afterAdj = "";
+    String newAdj = "";
+    String reviewText = textToString(fileName);
+    String newText = "";
+    
+    for(int i = 0; i < reviewText.length(); i ++)
+    {
+      if(reviewText.substring(i, i + 1).equals("*"))
+      {
+         beginInd = i + 1;
+         for(int j = i; j < reviewText.length(); j++)
+         {
+            if(reviewText.substring(j, j + 1).equals(" "))
+            {
+               endInd = j;
+               break;
+            }
+         } 
+        
+        beforeAdj = reviewText.substring(0, beginInd-1);
+        adj = reviewText.substring(beginInd, endInd);
+        afterAdj = reviewText.substring(endInd);
+        newAdj = randomAdjective();
+        newText = beforeAdj + newAdj + afterAdj;
+      }
+    }
+    return newText;
   }
 }
