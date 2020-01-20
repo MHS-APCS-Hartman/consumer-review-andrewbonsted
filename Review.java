@@ -243,34 +243,33 @@ public class Review {
     int beginInd = 0;
     int endInd = 0;
     String adj = "";
-    String beforeAdj = "";
-    String afterAdj = "";
     String newAdj = "";
     String reviewText = textToString(fileName);
-    String newText = "";
     
-    for(int i = 0; i < reviewText.length(); i ++)
+    while (reviewText.indexOf("*") > -1)
     {
-      if(reviewText.substring(i, i + 1).equals("*"))
-      {
-         beginInd = i + 1;
-         for(int j = i; j < reviewText.length(); j++)
+        beginInd = reviewText.indexOf("*");
+    
+        for(int j = beginInd; j < reviewText.length(); j++)
          {
             if(reviewText.substring(j, j + 1).equals(" "))
             {
                endInd = j;
                break;
             }
+            else
+            {
+               endInd = reviewText.length();
+            }
          } 
-        
-        beforeAdj = reviewText.substring(0, beginInd-1);
+      
+
         adj = reviewText.substring(beginInd, endInd);
-        afterAdj = reviewText.substring(endInd);
         newAdj = randomAdjective();
-        newText = beforeAdj + newAdj + afterAdj;
-      }
+        reviewText = reviewText.replace(adj, newAdj);
+       
     }
-    return newText;
+    return reviewText;
   }
   
   
@@ -280,58 +279,58 @@ public class Review {
     int beginInd = 0;
     int endInd = 0;
     String adj = "";
-    String beforeAdj = "";
-    String afterAdj = "";
+    String nadj = "";
     String newAdj = "";
+    String newerAdj = "";
     String reviewText = textToString(fileName);
-    String newText = "";
+
     
-    for(int i = 0; i < reviewText.length(); i ++)
+    while (reviewText.indexOf("*") > -1)
     {
-      if(reviewText.substring(i, i + 1).equals("*"))
-      {
-         beginInd = i + 1;
-         for(int j = i; j < reviewText.length(); j++)
+        beginInd = reviewText.indexOf("*");
+    
+        for(int j = beginInd; j < reviewText.length(); j++)
          {
             if(reviewText.substring(j, j + 1).equals(" "))
             {
                endInd = j;
                break;
             }
+            else
+            {
+               endInd = reviewText.length();
+            }
          } 
-        
-        beforeAdj = reviewText.substring(0, beginInd-1);
+      
         adj = reviewText.substring(beginInd, endInd);
-        afterAdj = reviewText.substring(endInd);
-        
-        double adjSent = sentimentVal(adj);
-        System.out.println(adjSent);
+        nadj = reviewText.substring(beginInd+1, endInd);
+
+        double adjSent = sentimentVal(nadj);
+
         if(adjSent > 0)
         {
          newAdj = randomPositiveAdj();
          double newAdjSent = sentimentVal(newAdj);
          while(newAdjSent > adjSent)
          {
-            String newerAdj = randomPositiveAdj();
+            newerAdj = randomPositiveAdj();
             newAdjSent = sentimentVal(newerAdj);
          }
         }
-        
         else
         {
          newAdj = randomNegativeAdj();
          double newAdjSent = sentimentVal(newAdj);
          while(newAdjSent > adjSent)
          {
-            String newerAdj = randomNegativeAdj();
+            newerAdj = randomNegativeAdj();
             newAdjSent = sentimentVal(newerAdj);
          }
         }
-        
-        newText = beforeAdj + newAdj + afterAdj;
-      }
+ 
+        reviewText = reviewText.replace(adj, newAdj);
+       
     }
-    return newText;
+    return reviewText;
   }
-
 }
