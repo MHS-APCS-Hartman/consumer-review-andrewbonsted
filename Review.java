@@ -114,26 +114,6 @@ public class Review {
     return punc;
   }
   
-   /**
-   * Returns the word after removing any beginning or ending punctuation
-   */
-  public static String removePunctuation( String word )
-  {
-    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(0)))
-    {
-      word = word.substring(1);
-    }
-    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(word.length()-1)))
-    {
-      word = word.substring(0, word.length()-1);
-    }
-    
-    return word;
-  }
- 
-
-
-  
   /** 
    * Randomly picks a positive adjective from the positiveAdjectives.txt file and returns it.
    */
@@ -165,4 +145,89 @@ public class Review {
       return randomNegativeAdj();
     }
   }
+   /**
+   * Returns the word after removing any beginning or ending punctuation
+   */
+  public static String removePunctuation( String word )
+  {
+    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(0)))
+    {
+      word = word.substring(1);
+    }
+    while(word.length() > 0 && !Character.isAlphabetic(word.charAt(word.length()-1)))
+    {
+      word = word.substring(0, word.length()-1);
+    }
+    
+    return word;
+  }
+ 
+  //Finds teh sentiment of each word and adds it up to find the total sentiment of the whole file
+  public static double totalSentiment(String fileName)
+  {
+      
+      String reviewText = textToString(fileName);
+      
+      String word = "";
+      String punctuation = "";
+      double sentValue = 0.0;
+      
+      for(int i = 0; i < reviewText.length(); i++)
+      {
+         
+         String letter = reviewText.substring(i, i+1);
+         
+         if (!(letter.equals(" ")))
+         {
+            word += letter;
+         }
+         
+         
+         else
+         {
+            removePunctuation(word);
+            sentValue += sentimentVal(word);
+            word = "";
+         }
+      }
+      
+      return sentValue;
+      
+  }
+  
+  // This method takes the sentiment of the whole file and assigns it a star rating from 1 to 5
+  public static int starRating(String fileName)
+  {
+    String reviewText = textToString(fileName);
+    double sentiment = totalSentiment(fileName);
+    int rating;
+    
+    if(sentiment < -3)
+    {
+       rating = 1;
+    }
+    
+    else if(sentiment < 0)
+    {
+       rating = 2;
+    }
+    
+    else if(sentiment < 3)
+    {
+       rating = 3;
+    }
+    
+    else if(sentiment < 6)
+    {
+       rating = 4;
+    }
+    
+    else
+    {
+       rating = 5;
+    }
+    
+    return rating;
+  }
 }
+     
