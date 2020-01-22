@@ -230,9 +230,6 @@ public class Review {
     return rating;
   }
 }
-     
-
-  
   public static String fakeReview(String fileName)
   {
     int beginInd = 0;
@@ -266,9 +263,6 @@ public class Review {
     }
     return reviewText;
   }
-  
-  
-  
   public static String fakeReviewStronger(String fileName)
   {
     int beginInd = 0;
