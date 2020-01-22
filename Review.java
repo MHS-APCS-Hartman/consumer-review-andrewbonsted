@@ -230,6 +230,10 @@ public class Review {
     return rating;
   }
 }
+
+  /*
+  This method replaces the starred adjectives with a random adjective.
+  */
   public static String fakeReview(String fileName)
   {
     int beginInd = 0;
@@ -263,6 +267,12 @@ public class Review {
     }
     return reviewText;
   }
+
+  /*
+  This method does the same as the fakeReview() method BUT
+  It replaces the negative adjectives with a negative adjective with a lower (more negative) sentiment value AND
+  It replaces the positive adjectives a positive adjective with a higher (more positive) sentiment value.
+  */
   public static String fakeReviewStronger(String fileName)
   {
     int beginInd = 0;
