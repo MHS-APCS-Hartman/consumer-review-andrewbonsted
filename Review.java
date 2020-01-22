@@ -229,7 +229,6 @@ public class Review {
     
     return rating;
   }
-  
   public static String fakeReview(String fileName)
   {
     int beginInd = 0;
@@ -259,7 +258,6 @@ public class Review {
         adj = reviewText.substring(beginInd, endInd);
         newAdj = randomAdjective();
         reviewText = reviewText.replace(adj, newAdj);
-       
     }
     return reviewText;
   }
