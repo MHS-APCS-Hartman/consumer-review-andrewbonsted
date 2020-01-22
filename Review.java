@@ -229,39 +229,5 @@ public class Review {
     
     return rating;
   }
-  
-  public static String fakeReview(String fileName)
-  {
-    int beginInd = 0;
-    int endInd = 0;
-    String adj = "";
-    String newAdj = "";
-    String reviewText = textToString(fileName);
-    
-    while (reviewText.indexOf("*") > -1)
-    {
-        beginInd = reviewText.indexOf("*");
-    
-        for(int j = beginInd; j < reviewText.length(); j++)
-         {
-            if(reviewText.substring(j, j + 1).equals(" "))
-            {
-               endInd = j;
-               break;
-            }
-            else
-            {
-               endInd = reviewText.length();
-            }
-         } 
-      
-
-        adj = reviewText.substring(beginInd, endInd);
-        newAdj = randomAdjective();
-        reviewText = reviewText.replace(adj, newAdj);
-       
-    }
-    return reviewText;
-  }
 }
      
