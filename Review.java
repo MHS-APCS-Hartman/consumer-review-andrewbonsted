@@ -163,17 +163,9 @@ public class Review {
   }
  
   
+  //Finds teh sentiment of each word and adds it up to find the total sentiment of the whole file
   public static double totalSentiment(String fileName)
   {
-      //open file
-      
-      //pick each word - when i find a space, all the stuff before was a word - remove punctuation - reset word = "" 
-      
-      //look up sentiment value
-      
-      //add to total
-      
-      //return total value
       
       String reviewText = textToString(fileName);
       
@@ -203,7 +195,7 @@ public class Review {
       return sentValue;
       
   }
-  
+    // This method takes the sentiment of the whole file and assigns it a star rating from 1 to 5
   public static int starRating(String fileName)
   {
     String reviewText = textToString(fileName);
